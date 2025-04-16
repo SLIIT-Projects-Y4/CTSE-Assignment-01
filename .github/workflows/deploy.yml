@@ -13,6 +13,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Run Snyk to check for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test ./backend
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
